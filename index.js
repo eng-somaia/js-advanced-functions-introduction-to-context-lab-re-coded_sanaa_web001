@@ -49,18 +49,22 @@ function createTimeOutEvent(x,y){
 
 }
 
-function hoursWorkedOnDate(x,y){
-  let z=0;
-  if (y === x.timeOutEvents[0].date)
-   z = (x.timeOutEvents[0].hour)/100 - (x.timeInEvents[0].hour)/100;
-    return z;
-   }
+let hoursWorkedOnDate = function(employee, soughtDate){
+    let inEvent = employee.timeInEvents.find(function(e){
+        return e.date === soughtDate
+    })
 
-function wagesEarnedOnDate(a,b){
-  let z=0;
-  if (b === a.timeOutEvents[0].date)
- z = hoursWorkedOnDate(a,b) * a.payPerHour;
- return parseFloat(z.toString());
+    let outEvent = employee.timeOutEvents.find(function(e){
+        return e.date === soughtDate
+    })
+
+    return (outEvent.hour - inEvent.hour) / 100
+}
+
+let wagesEarnedOnDate = function(employee, dateSought){
+    let rawWage = hoursWorkedOnDate(employee, dateSought)
+        * employee.payPerHour
+    return parseFloat(rawWage.toString())
 }
 
 function allWagesFor(c){
